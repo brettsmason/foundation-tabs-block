@@ -3,7 +3,7 @@ import './style.scss';
 import './editor.scss';
 import './tabs.js';
 import classnames from 'classnames';
-import { times } from 'lodash';
+import times from 'lodash/times';
 
 const { __ } = wp.i18n;
 const {
@@ -13,6 +13,10 @@ const {
 	BlockAlignmentToolbar,
 	InspectorControls,
 } = wp.blocks;
+
+const {
+	PanelBody,
+} = wp.components;
 
 const { RangeControl, ToggleControl } = InspectorControls;
 
@@ -73,7 +77,7 @@ registerBlockType('tnc/tabs', {
 
 		return [
 			!! focus && (
-				<BlockControls key="controls">
+				<BlockControls>
 					<BlockAlignmentToolbar
 						value={ width }
 						onChange={ ( value ) => setAttributes( { width: value } ) }
@@ -82,7 +86,15 @@ registerBlockType('tnc/tabs', {
 				</BlockControls>
 			),
 			!! focus && (
-				<InspectorControls key="inspector">
+				<InspectorControls>
+					<PanelBody title={ __( 'Block Width' ) }>
+						<BlockAlignmentToolbar
+							value={ width }
+							onChange={ ( value ) => setAttributes( { width: value } ) }
+							controls={ ['wide', 'full'] }
+						/>
+					</PanelBody>
+
 					<ToggleControl
 						label={ __( 'Vertical Tabs?' ) }
 						checked={ !! vertical }
@@ -171,14 +183,13 @@ registerBlockType('tnc/tabs', {
 		const { className, attributes } = props;
 		const { width, content, title, tabs, vertical } = attributes;
 
-		return (
+		return [
 			<div
 				className={classnames(
 					className,
 					width ? `align${ width }` : null,
 					{ 'vertical': vertical }
 				)}
-				key="block"
 			>
 				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id="example-tabs">
 					{ times( tabs, ( index ) =>
@@ -212,6 +223,6 @@ registerBlockType('tnc/tabs', {
 					) }
 				</div>
 			</div>
-		);
+		];
 	}
 });
