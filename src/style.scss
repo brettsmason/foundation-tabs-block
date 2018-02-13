@@ -1,0 +1,32 @@
+@import '../node_modules/foundation-sites/scss/foundation';
+
+.tabs__nav {
+	@include tabs-container;
+	padding: 0;
+}
+
+.tabs__title {
+	@include tabs-title;
+}
+
+.tabs__content {
+	@include tabs-content;
+}
+
+.tabs__panel {
+	@include tabs-panel;
+}
+
+.wp-block-tnc-tabs.vertical {
+	display: flex;
+
+	.tabs__nav {
+		@include tabs-container-vertical;
+		flex: 0 0 20%;
+	}
+
+	.tabs__content {
+		@include tabs-content-vertical;
+		flex: 0 0 80%;
+	}
+}
