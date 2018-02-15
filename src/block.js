@@ -28,6 +28,16 @@ registerBlockType('tnc/tabs', {
 		__('Tabs')
 	],
 	attributes: {
+		heading: {
+			type: 'array',
+			source: 'children',
+			selector: '.block__heading',
+		},
+		description: {
+			type: 'array',
+			source: 'children',
+			selector: '.block__description',
+		},
 		content: {
 			type: 'array',
 			source: 'query',
@@ -38,6 +48,9 @@ registerBlockType('tnc/tabs', {
 				},
 			},
 			default: [ [], [] ],
+		},
+		id: {
+			type: 'string'
 		},
 		title: {
 			type: 'array',
@@ -73,7 +86,11 @@ registerBlockType('tnc/tabs', {
 	edit: props => {
 
 		const { className, attributes, setAttributes, focus, setFocus, isSelected } = props;
-		const { content, title, tabs, width, vertical } = attributes;
+		const { content, title, tabs, width, vertical, heading, description, id } = attributes;
+
+		const focusedEditable = focus ? focus.editable || 'heading' : null;
+
+		setAttributes( { id: props.id } );
 
 		return [
 			!! focus && (
@@ -118,62 +135,87 @@ registerBlockType('tnc/tabs', {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id="example-tabs">
-					{ times( tabs, ( index ) =>
-						<li
-							className={classnames(
-								"tabs__title",
-								{ 'is-active': index === 0 }
-							)}
-							key={ `tab-${ index }` }
-						>
-							<a
-								// href={ `#panel-${ index }` }
-								data-tabs-target={ `#panel-${ index }` }
+				<div className="block__wrap wrapper">
+					<Editable
+						key="editable"
+						tagName="h2"
+						className={ 'block__heading' }
+						placeholder={ 'Enter a heading...' }
+						onChange={ ( value ) => setAttributes( { heading: value } ) }
+						value={ heading }
+						focus={ focusedEditable === 'heading' }
+						onFocus={ setFocus }
+					/>
+					<Editable
+						key="editable"
+						tagName="p"
+						className={ 'block__description' }
+						placeholder={ 'Enter a description...' }
+						onChange={ ( value ) => setAttributes( { description: value } ) }
+						value={ description }
+						focus={ focusedEditable === 'description' }
+						onFocus={ setFocus }
+					/>
+				</div>
+
+				<div className="tabs-wrapper wrapper">
+					<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ id }>
+						{ times( tabs, ( index ) =>
+							<li
+								className={classnames(
+									"tabs__title",
+									{ 'is-active': index === 0 }
+								)}
+								key={ `tab-${ index }` }
 							>
-								<Editable
-									tagName="span"
-									value={ title && title[ index ] && title[ index ].children }
-									onChange={ ( nextTitle ) => {
-										setAttributes( {
-											title: [
-												...title.slice( 0, index ),
-												{ children: nextTitle },
-												...title.slice( index + 1 ),
-											],
-										} );
-									} }
-									placeholder={ __( 'Tab Title...' ) }
-									isSelected={ isSelected }
-								/>
-							</a>
-						</li>
-					) }
-				</ul>
-				<div className="tabs__content" data-tabs-content="example-tabs">
-					{ times( tabs, ( index ) =>
-						<Editable
-							tagName="div"
-							multiline="p"
-							className={classnames(
-								"tabs__panel",
-								{ 'is-active': index === 0 }
-							)}
-							id={ `panel-${ index }` }
-							value={ content && content[ index ] && content[ index ].children }
-							onChange={ ( nextContent ) => {
-								setAttributes( {
-									content: [
-										...content.slice( 0, index ),
-										{ children: nextContent },
-										...content.slice( index + 1 ),
-									],
-								} );
-							} }
-							placeholder={ __( 'Tab Content...' ) }
-							isSelected={ isSelected }
-						/>
-					) }
+								<a
+									// href={ `#panel-${ index }` }
+									data-tabs-target={ `${ id }-panel-${ index }` }
+								>
+									<Editable
+										tagName="span"
+										value={ title && title[ index ] && title[ index ].children }
+										onChange={ ( nextTitle ) => {
+											setAttributes( {
+												title: [
+													...title.slice( 0, index ),
+													{ children: nextTitle },
+													...title.slice( index + 1 ),
+												],
+											} );
+										} }
+										placeholder={ __( 'Tab Title...' ) }
+										isSelected={ isSelected }
+									/>
+								</a>
+							</li>
+						) }
+					</ul>
+					<div className="tabs__content" data-tabs-content={ id }>
+						{ times( tabs, ( index ) =>
+							<Editable
+								tagName="div"
+								multiline="p"
+								className={classnames(
+									"tabs__panel",
+									{ 'is-active': index === 0 }
+								)}
+								id={ `${ id }-panel-${ index }` }
+								value={ content && content[ index ] && content[ index ].children }
+								onChange={ ( nextContent ) => {
+									setAttributes( {
+										content: [
+											...content.slice( 0, index ),
+											{ children: nextContent },
+											...content.slice( index + 1 ),
+										],
+									} );
+								} }
+								placeholder={ __( 'Tab Content...' ) }
+								isSelected={ isSelected }
+							/>
+						) }
+					</div>
 				</div>
 			</div>
 		];
@@ -181,7 +223,7 @@ registerBlockType('tnc/tabs', {
 	save: props => {
 
 		const { className, attributes } = props;
-		const { width, content, title, tabs, vertical } = attributes;
+		const { width, content, title, tabs, vertical, heading, description, id } = attributes;
 
 		return [
 			<div
@@ -191,38 +233,45 @@ registerBlockType('tnc/tabs', {
 					{ 'vertical': vertical }
 				)}
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id="example-tabs">
-					{ times( tabs, ( index ) =>
-						<li
-							className={classnames(
-								"tabs__title",
-								{ 'is-active': index === 0 }
-							)}
-							key={ `tab-${ index }` }
-						>
-							<a
-								href={ `#panel-${ index }` }
-								data-tabs-target={ `panel-${ index }` }
+				<div className="block__wrap wrapper">
+					<h2 className="block__heading">{ heading }</h2>
+					<p className="block__description">{ description }</p>
+				</div>
+
+				<div className="tabs-wrapper wrapper">
+					<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ id }>
+						{ times( tabs, ( index ) =>
+							<li
+								className={classnames(
+									"tabs__title",
+									{ 'is-active': index === 0 }
+								)}
+								key={ `tab-${ index }` }
 							>
-								<span>{ title && title[ index ].children }</span>
-							</a>
-						</li>
-					) }
-				</ul>
-				<div className="tabs__content" data-tabs-content="example-tabs">
-					{ times( tabs, ( index ) =>
-						<div
-							className={classnames(
-								"tabs__panel",
-								{ 'is-active': index === 0 }
-							)}
-							id={ `panel-${ index }` }
-						>
-							{ content && content[ index ].children }
-						</div>
-					) }
+								<a
+									href={ `#${ id }-panel-${ index }` }
+									data-tabs-target={ `${ id }-panel-${ index }` }
+								>
+									<span>{ title && title[ index ].children }</span>
+								</a>
+							</li>
+						) }
+					</ul>
+					<div className="tabs__content" data-tabs-content={ id }>
+						{ times( tabs, ( index ) =>
+							<div
+								className={classnames(
+									"tabs__panel",
+									{ 'is-active': index === 0 }
+								)}
+								id={ `${ id }-panel-${ index }` }
+							>
+								{ content && content[ index ].children }
+							</div>
+						) }
+					</div>
 				</div>
 			</div>
 		];
-	}
+	},
 });
