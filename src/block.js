@@ -3,6 +3,7 @@ import './style.scss';
 import './editor.scss';
 import classnames from 'classnames';
 import times from 'lodash/times';
+import icon from './icon';
 import FoundationTabs from './foundation-tabs';
 
 const { __ } = wp.i18n;
@@ -12,8 +13,9 @@ const {
 
 registerBlockType('tnc/tabs', {
 	title: __('Tabs'),
+	description: __( 'Create a set of horizontal or vertical tabs to layout your content.' ),
 	category: 'common',
-	icon: 'shield',
+	icon: icon,
 	keywords: [
 		__('Tabs')
 	],

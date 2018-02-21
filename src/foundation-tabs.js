@@ -9,7 +9,7 @@ const {
 	InspectorControls,
 } = wp.blocks;
 const { Component } = wp.element;
-const { RangeControl, ToggleControl } = wp.components;
+const { PanelBody, RangeControl, ToggleControl } = wp.components;
 
 class FoundationTabs extends Component {
 
@@ -37,6 +37,9 @@ class FoundationTabs extends Component {
 			),
 			!! isSelected && (
 				<InspectorControls key="inspector">
+
+					<h2>{ __( 'Tabs Settings' ) }</h2>
+
 					<ToggleControl
 						label={ __( 'Vertical Tabs?' ) }
 						checked={ !! vertical }
@@ -49,6 +52,14 @@ class FoundationTabs extends Component {
 						onChange={ ( value ) => setAttributes( { tabsCount: value } ) }
 						min={ 2 }
 						max={ 10 }
+					/>
+
+					<h2>{ __( 'Block Width' ) }</h2>
+
+					<BlockAlignmentToolbar
+						value={ width }
+						onChange={ ( value ) => setAttributes( { width: value } ) }
+						controls={ ['wide', 'full'] }
 					/>
 				</InspectorControls>
 			),
