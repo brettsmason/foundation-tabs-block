@@ -64,7 +64,7 @@ registerBlockType('tnc/tabs', {
 
 	save: props => {
 
-		const { className, attributes } = props;
+		const { className, attributes, id } = props;
 		const { tabsCount, title, content, width, vertical } = attributes;
 
 		return (
@@ -76,7 +76,7 @@ registerBlockType('tnc/tabs', {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id="example-tabs">
+				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ id }` }>
 					{ times( tabsCount, ( index ) =>
 						<li
 							className={classnames(
@@ -86,22 +86,22 @@ registerBlockType('tnc/tabs', {
 							key={ `tab-${ index }` }
 						>
 							<a
-								href={ `#panel-${ index }` }
-								data-tabs-target={ `panel-${ index }` }
+								href={ `#${ id }-panel-${ index }` }
+								data-tabs-target={ `${ id }-panel-${ index }` }
 							>
 								<span>{ title && title[ index ] && title[ index ].children }</span>
 							</a>
 						</li>
 					) }
 				</ul>
-				<div className="tabs__content" data-tabs-content="example-tabs">
+				<div className="tabs__content" data-tabs-content={ `tabs-${ id }` }>
 					{ times( tabsCount, ( index ) =>
 						<div
 							className={classnames(
 								"tabs__panel",
 								{ 'is-active': index === 0 }
 							)}
-							id={ `panel-${ index }` }
+							id={ `${ id }-panel-${ index }` }
 						>
 							{ content && content[ index ] && content[ index ].children }
 						</div>

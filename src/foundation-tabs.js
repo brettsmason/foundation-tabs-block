@@ -18,7 +18,7 @@ class FoundationTabs extends Component {
 	}
 
 	componentDidUpdate() {
-		// const tabs = new Foundation.Tabs(jQuery('.tabs'), {});
+		const tabs = new Foundation.Tabs(jQuery('.tabs__nav'), {});
 	}
 
 	render() {
@@ -60,17 +60,17 @@ class FoundationTabs extends Component {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id="example-tabs">
+				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ id }` }>
 					{ times( tabsCount, ( index ) =>
 						<li
 							className={classnames(
 								"tabs__title",
 								{ 'is-active': index === 0 }
 							)}
-							key={ `tab-${ index }` }
+							key={ `${ id }-tab-${ index }` }
 						>
 							<a
-								data-tabs-target={ `#panel-${ index }` }
+								data-tabs-target={ `${ id }-panel-${ index }` }
 							>
 								<RichText
 									tagName="span"
@@ -90,28 +90,31 @@ class FoundationTabs extends Component {
 						</li>
 					) }
 				</ul>
-				<div className="tabs__content" data-tabs-content="example-tabs">
+				<div className="tabs__content" data-tabs-content={ `tabs-${ id }` }>
 					{ times( tabsCount, ( index ) =>
-						<RichText
-							tagName="div"
-							multiline="p"
+						<div
 							className={classnames(
 								"tabs__panel",
 								{ 'is-active': index === 0 }
 							)}
-							id={ `panel-${ index }` }
-							value={ content && content[ index ] && content[ index ].children }
-							onChange={ ( nextContent ) => {
-								setAttributes( {
-									content: [
-										...content.slice( 0, index ),
-										{ children: nextContent },
-										...content.slice( index + 1 ),
-									],
-								} );
-							} }
-							placeholder={ __( 'Tab Content...' ) }
-						/>
+						>
+							<RichText
+								tagName="div"
+								multiline="p"
+								id={ `${ id }-panel-${ index }` }
+								value={ content && content[ index ] && content[ index ].children }
+								onChange={ ( nextContent ) => {
+									setAttributes( {
+										content: [
+											...content.slice( 0, index ),
+											{ children: nextContent },
+											...content.slice( index + 1 ),
+										],
+									} );
+								} }
+								placeholder={ __( 'Tab Content...' ) }
+							/>
+						</div>
 					) }
 				</div>
 			</div>
