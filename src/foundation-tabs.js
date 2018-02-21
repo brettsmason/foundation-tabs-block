@@ -97,11 +97,11 @@ class FoundationTabs extends Component {
 								"tabs__panel",
 								{ 'is-active': index === 0 }
 							)}
+							id={ `${ id }-panel-${ index }` }
 						>
 							<RichText
 								tagName="div"
 								multiline="p"
-								id={ `${ id }-panel-${ index }` }
 								value={ content && content[ index ] && content[ index ].children }
 								onChange={ ( nextContent ) => {
 									setAttributes( {
