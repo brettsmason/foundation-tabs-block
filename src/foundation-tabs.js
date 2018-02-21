@@ -95,7 +95,7 @@ class FoundationTabs extends Component {
 											],
 										} );
 									} }
-									placeholder={ __( 'Tab Title...' ) }
+									placeholder={ __( `Tab ${ index + 1 } Title...` ) }
 								/>
 							</a>
 						</li>
@@ -123,7 +123,7 @@ class FoundationTabs extends Component {
 										],
 									} );
 								} }
-								placeholder={ __( 'Tab Content...' ) }
+								placeholder={ __( `Tab ${ index + 1 } content...` ) }
 							/>
 						</div>
 					) }
