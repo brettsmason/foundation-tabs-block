@@ -1,13 +1,15 @@
 @import '../node_modules/foundation-sites/scss/foundation';
 
-.tabs__nav {
-	list-style: none !important;
-}
+.gutenberg {
+	ul.tabs__nav {
+		list-style: none;
+	}
 
-.tabs__title {
-	margin-bottom: 0 !important;
-}
+	.tabs__title {
+		margin-bottom: 0;
+	}
 
-.tabs__panel {
-	display: block !important;
+	.tabs__title .blocks-rich-text__tinymce.mce-content-body {
+		line-height: inherit;
+	}
 }

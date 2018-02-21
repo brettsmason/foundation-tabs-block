@@ -1,30 +1,11 @@
 @import '../node_modules/foundation-sites/scss/foundation';
 
-$tab-margin: 0;
-$tab-background: null;
-$tab-color: $black;
-$tab-background-active: null;
-$tab-active-color: #cf9a2c;
-$tab-item-font-size: rem-calc(18);
-$tab-item-background-hover: null;
-$tab-item-padding: 0;
-$tab-expand-max: 6;
-$tab-content-background: null;
-$tab-content-border: 0;
-$tab-content-color: $body-font-color;
-$tab-content-padding: 0 1.5rem;
-
 .tabs__nav {
 	@include tabs-container;
-	padding: 0;
 }
 
 .tabs__title {
 	@include tabs-title;
-}
-
-.tabs__title > a {
-	line-height: $global-lineheight;
 }
 
 .tabs__content {
@@ -36,10 +17,7 @@ $tab-content-padding: 0 1.5rem;
 }
 
 .wp-block-tnc-tabs.vertical {
-
-	.tabs-wrapper {
-		display: flex;
-	}
+	display: flex;
 
 	.tabs__nav {
 		@include tabs-container-vertical;
@@ -50,12 +28,4 @@ $tab-content-padding: 0 1.5rem;
 		@include tabs-content-vertical;
 		flex: 0 0 80%;
 	}
-
-	.tabs__title + .tabs__title {
-		margin-top: $global-margin;
-	}
-}
-
-.block__description {
-	margin-bottom: $global-margin;
 }
