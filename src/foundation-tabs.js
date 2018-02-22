@@ -1,5 +1,8 @@
 import times from 'lodash/times';
 import classnames from 'classnames';
+import { GetYoDigits } from 'foundation-sites/js/foundation.util.core';
+
+// const id = GetYoDigits();
 
 const { __ } = wp.i18n;
 const {
@@ -19,11 +22,12 @@ class FoundationTabs extends Component {
 
 	componentDidUpdate() {
 		const tabs = new Foundation.Tabs(jQuery('.tabs__nav'), {});
+		tabs.$tabTitles.off('keydown.zf.tabs'); // Disable keyboard nav to allow editing
 	}
 
 	render() {
 		const { className, attributes, setAttributes, isSelected, id } = this.props;
-		const { tabsCount, title, content, width, vertical } = attributes;
+		const { tabsCount, tabsID, title, content, width, vertical } = attributes;
 
 		return [
 			!! isSelected && (
@@ -63,17 +67,17 @@ class FoundationTabs extends Component {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ id }` }>
+				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ tabsID }` }>
 					{ times( tabsCount, ( index ) =>
 						<li
 							className={classnames(
 								"tabs__title",
 								{ 'is-active': index === 0 }
 							)}
-							key={ `${ id }-tab-${ index }` }
+							key={ `${ tabsID }-tab-${ index }` }
 						>
 							<a
-								data-tabs-target={ `${ id }-panel-${ index }` }
+								data-tabs-target={ `${ tabsID }-panel-${ index }` }
 							>
 								<RichText
 									tagName="span"
@@ -93,14 +97,14 @@ class FoundationTabs extends Component {
 						</li>
 					) }
 				</ul>
-				<div className="tabs__content" data-tabs-content={ `tabs-${ id }` }>
+				<div className="tabs__content" data-tabs-content={ `tabs-${ tabsID }` }>
 					{ times( tabsCount, ( index ) =>
 						<div
 							className={classnames(
 								"tabs__panel",
 								{ 'is-active': index === 0 }
 							)}
-							id={ `${ id }-panel-${ index }` }
+							id={ `${ tabsID }-panel-${ index }` }
 						>
 							<RichText
 								tagName="div"

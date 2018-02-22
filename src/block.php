@@ -13,27 +13,15 @@ function tnc_tabs_block_assets() {
 		array( 'wp-blocks' )
 	);
 
-	wp_enqueue_script(
-		'tnc-tabs-block-fdn-js',
-		'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js',
-		array('jquery'),
-		null,
-		true
-	);
-
-	wp_enqueue_script(
-		'tnc-fdn-js',
-		plugins_url( '/src/fdn.js', dirname( __FILE__ ) ),
-		array('jquery'),
-		null,
-		true
-	);
-
-	// wp_enqueue_script(
-	// 	'tnc-tabs-block-frontend-js',
-	// 	plugins_url( '/dist/block.frontend.js', dirname( __FILE__ ) ),
-	// 	array()
-	// );
+	if ( ! is_admin() ) {
+		wp_enqueue_script(
+			'tnc-tabs-block-frontend-js',
+			plugins_url( '/dist/block.frontend.js', dirname( __FILE__ ) ),
+			array( 'jquery' ),
+			null,
+			true
+		);
+	}
 }
 add_action( 'enqueue_block_assets', 'tnc_tabs_block_assets' );
 

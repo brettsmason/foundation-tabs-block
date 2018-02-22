@@ -6,6 +6,8 @@ import times from 'lodash/times';
 import icon from './icon';
 import FoundationTabs from './foundation-tabs';
 
+import Foundation from './foundation';
+
 const { __ } = wp.i18n;
 const {
 	registerBlockType,
@@ -23,6 +25,10 @@ registerBlockType('tnc/tabs', {
 		tabsCount: {
 			type: 'number',
 			default: 2,
+		},
+		tabsID: {
+			type: 'string',
+			default: Foundation.GetYoDigits()
 		},
 		title: {
 			type: 'array',
@@ -66,8 +72,8 @@ registerBlockType('tnc/tabs', {
 
 	save: props => {
 
-		const { className, attributes, id } = props;
-		const { tabsCount, title, content, width, vertical } = attributes;
+		const { className, attributes } = props;
+		const { tabsCount, tabsID, title, content, width, vertical } = attributes;
 
 		return (
 			<div
@@ -78,7 +84,7 @@ registerBlockType('tnc/tabs', {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ id }` }>
+				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ tabsID }` }>
 					{ times( tabsCount, ( index ) =>
 						<li
 							className={classnames(
@@ -88,22 +94,22 @@ registerBlockType('tnc/tabs', {
 							key={ `tab-${ index }` }
 						>
 							<a
-								href={ `#${ id }-panel-${ index }` }
-								data-tabs-target={ `${ id }-panel-${ index }` }
+								href={ `#${ tabsID }-panel-${ index }` }
+								data-tabs-target={ `${ tabsID }-panel-${ index }` }
 							>
 								<span>{ title && title[ index ] && title[ index ].children }</span>
 							</a>
 						</li>
 					) }
 				</ul>
-				<div className="tabs__content" data-tabs-content={ `tabs-${ id }` }>
+				<div className="tabs__content" data-tabs-content={ `tabs-${ tabsID }` }>
 					{ times( tabsCount, ( index ) =>
 						<div
 							className={classnames(
 								"tabs__panel",
 								{ 'is-active': index === 0 }
 							)}
-							id={ `${ id }-panel-${ index }` }
+							id={ `${ tabsID }-panel-${ index }` }
 						>
 							{ content && content[ index ] && content[ index ].children }
 						</div>

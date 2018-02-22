@@ -33,7 +33,7 @@ const extractConfig = {
 module.exports = {
   entry: {
     './dist/block.editor' : './src/block.js',
-    // './dist/block.frontend' : './src/frontend.js',
+    './dist/block.frontend' : './src/frontend.js',
   },
   output: {
     path: path.resolve( __dirname ),
@@ -62,6 +62,11 @@ module.exports = {
   },
   plugins: [
     blocksCSSPlugin,
-    editBlocksCSSPlugin,
+		editBlocksCSSPlugin,
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery'
+		})
   ],
 };
