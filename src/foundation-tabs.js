@@ -25,6 +25,14 @@ class FoundationTabs extends Component {
 		tabs.$tabTitles.off('keydown.zf.tabs'); // Disable keyboard nav to allow editing
 	}
 
+	componentWillMount() {
+		const { attributes, setAttributes } = this.props;
+		const { tabsID } = attributes;
+		if(! tabsID === null) {
+		  	setAttributes({ tabsId: GetYoDigits() });
+		}
+	}
+
 	render() {
 		const { className, attributes, setAttributes, isSelected, id } = this.props;
 		const { tabsCount, tabsID, title, content, width, vertical } = attributes;
