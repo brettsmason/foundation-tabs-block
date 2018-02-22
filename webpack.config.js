@@ -29,8 +29,40 @@ const extractConfig = {
     },
   ],
 };
+let plugins = [
+  blocksCSSPlugin,
+  editBlocksCSSPlugin,
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery'
+  }),
+  new webpack.optimize.ModuleConcatenationPlugin(),
+];
 
-module.exports = {
+if ('production' === process.env.NODE_ENV) {
+  plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true
+      },
+      output: {
+        comments: false
+      }
+    }),
+  );
+}
+
+const config = {
   entry: {
     './dist/block.editor' : './src/block.js',
     './dist/block.frontend' : './src/frontend.js',
@@ -40,12 +72,15 @@ module.exports = {
     filename: '[name].js',
   },
   watch: true,
-  devtool: 'cheap-eval-source-map',
+  externals: {'jquery': 'jQuery'},
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        include: [
+          path.resolve(__dirname, "src/"),
+          path.resolve(__dirname, "node_modules/foundation-sites"),
+        ],
         use: {
           loader: 'babel-loader',
         },
@@ -60,13 +95,11 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    blocksCSSPlugin,
-		editBlocksCSSPlugin,
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			'window.jQuery': 'jquery'
-		})
-  ],
+  plugins: plugins,
 };
+
+if ('production' !== process.env.NODE_ENV) {
+  config.devtool = 'cheap-eval-source-map';
+}
+
+module.exports = config;

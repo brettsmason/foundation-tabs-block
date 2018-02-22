@@ -1,9 +1,5 @@
 import whatInput from 'what-input';
 
-window.$ = $;
-
-import $ from 'jquery';
-
 import { Foundation } from 'foundation-sites/js/foundation.core';
 import { rtl, GetYoDigits, transitionend } from 'foundation-sites/js/foundation.util.core';
 import { Box } from 'foundation-sites/js/foundation.util.box'
