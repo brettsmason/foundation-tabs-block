@@ -27,8 +27,7 @@ registerBlockType('tnc/tabs', {
 			default: 2,
 		},
 		tabsID: {
-			type: 'string',
-			default: Foundation.GetYoDigits()
+			type: 'string'
 		},
 		title: {
 			type: 'array',
