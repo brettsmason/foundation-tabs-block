@@ -2,8 +2,6 @@ import times from 'lodash/times';
 import classnames from 'classnames';
 import { GetYoDigits } from 'foundation-sites/js/foundation.util.core';
 
-let id = GetYoDigits();
-
 const { __ } = wp.i18n;
 const {
 	RichText,
@@ -12,7 +10,9 @@ const {
 	InspectorControls,
 } = wp.blocks;
 const { Component } = wp.element;
-const { RangeControl, ToggleControl } = wp.components;
+const { RangeControl, ToggleControl, withState } = wp.components;
+
+const id = GetYoDigits();
 
 class FoundationTabs extends Component {
 
@@ -24,20 +24,25 @@ class FoundationTabs extends Component {
 		const { attributes, setAttributes } = this.props;
 		const { tabsID } = attributes;
 		if(tabsID === undefined) {
-		  	setAttributes({ tabsID: id });
+		  	setAttributes({ tabsID: GetYoDigits() });
 		}
 	}
 
 	componentDidUpdate() {
 		const { attributes, setAttributes } = this.props;
 		const { tabsID } = attributes;
-		const tabs = new Foundation.Tabs(jQuery(`#tabs-${ tabsID }`), {});
+		const tabs = new Foundation.Tabs(jQuery(`#tabs-${ tabsID }`), {
+			panelClass: 'tabs__panel',
+			linkClass: 'tabs__title'
+		});
 		tabs.$tabTitles.off('keydown.zf.tabs'); // Disable keyboard nav to allow editing
 	}
 
 	render() {
-		const { className, attributes, setAttributes, isSelected, id } = this.props;
+		const { className, attributes, setAttributes, isSelected, setState } = this.props;
 		const { tabsCount, tabsID, title, content, width, vertical } = attributes;
+
+		// const onSetActiveEditable = ( newEditable ) => () => setState( { editable: newEditable } );
 
 		return [
 			!! isSelected && (
@@ -77,7 +82,7 @@ class FoundationTabs extends Component {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs id={ `tabs-${ tabsID }` } data-link-class="tabs__title" data-panel-class="tabs__panel">
+				<ul className="tabs__nav" data-tabs id={ `tabs-${ tabsID }` }>
 					{ times( tabsCount, ( index ) =>
 						<li
 							className={classnames(
@@ -102,6 +107,7 @@ class FoundationTabs extends Component {
 										} );
 									} }
 									placeholder={ __( `Tab ${ index + 1 } Title...` ) }
+									formattingControls={ [] }
 								/>
 							</a>
 						</li>
@@ -130,6 +136,9 @@ class FoundationTabs extends Component {
 									} );
 								} }
 								placeholder={ __( `Tab ${ index + 1 } content...` ) }
+								formattingControls={ [ 'bold', 'italic', 'link' ] }
+								// isSelected={ isSelected && editable === 'content' }
+								// onFocus={ onSetActiveEditable( 'content' ) }
 							/>
 						</div>
 					) }
