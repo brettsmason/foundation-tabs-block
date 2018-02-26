@@ -39,10 +39,10 @@ class FoundationTabs extends Component {
 	}
 
 	render() {
-		const { className, attributes, setAttributes, isSelected, setState } = this.props;
+		const { withState, className, attributes, setAttributes, isSelected, editable, setState } = this.props;
 		const { tabsCount, tabsID, title, content, width, vertical } = attributes;
 
-		// const onSetActiveEditable = ( newEditable ) => () => setState( { editable: newEditable } );
+		const onSetActiveEditable = ( newEditable ) => () => setState( { editable: newEditable } );
 
 		return [
 			!! isSelected && (
@@ -107,6 +107,8 @@ class FoundationTabs extends Component {
 										} );
 									} }
 									placeholder={ __( `Tab ${ index + 1 } Title...` ) }
+									isSelected={ isSelected && editable === `title-${ index }` }
+									onFocus={ onSetActiveEditable( `title-${ index }` ) }
 									formattingControls={ [] }
 								/>
 							</a>
@@ -137,8 +139,8 @@ class FoundationTabs extends Component {
 								} }
 								placeholder={ __( `Tab ${ index + 1 } content...` ) }
 								formattingControls={ [ 'bold', 'italic', 'link' ] }
-								// isSelected={ isSelected && editable === 'content' }
-								// onFocus={ onSetActiveEditable( 'content' ) }
+								isSelected={ isSelected && editable === `content-${ index }` }
+								onFocus={ onSetActiveEditable( `content-${ index }` ) }
 							/>
 						</div>
 					) }

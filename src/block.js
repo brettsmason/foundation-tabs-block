@@ -13,6 +13,10 @@ const {
 	registerBlockType,
 } = wp.blocks;
 
+const {
+	withState,
+} = wp.components;
+
 registerBlockType('tnc/tabs', {
 	title: __('Tabs'),
 	description: __( 'Create a set of horizontal or vertical tabs to layout your content.' ),
@@ -67,7 +71,9 @@ registerBlockType('tnc/tabs', {
 			}
 	},
 
-	edit: FoundationTabs,
+	edit: withState( {
+		editable: 'content',
+	} )(FoundationTabs),
 
 	save: props => {
 

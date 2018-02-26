@@ -1,1 +1,14 @@
-.gutenberg ul.tabs__nav{list-style:none}.gutenberg .tabs__title{margin-bottom:0}.gutenberg .tabs__title .blocks-rich-text__tinymce.mce-content-body{line-height:inherit}
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.4.4-rc1
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+.gutenberg ul.tabs__nav {
+  list-style: none; }
+
+.gutenberg .tabs__title {
+  margin-bottom: 0; }
+
+.gutenberg .tabs__title .blocks-rich-text__tinymce.mce-content-body {
+  line-height: inherit; }
