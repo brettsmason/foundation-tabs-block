@@ -2,7 +2,7 @@ import times from 'lodash/times';
 import classnames from 'classnames';
 import { GetYoDigits } from 'foundation-sites/js/foundation.util.core';
 
-// const id = GetYoDigits();
+let id = GetYoDigits();
 
 const { __ } = wp.i18n;
 const {
@@ -20,17 +20,19 @@ class FoundationTabs extends Component {
 		super( ...arguments );
 	}
 
-	componentDidUpdate() {
-		const tabs = new Foundation.Tabs(jQuery('.tabs__nav'), {});
-		tabs.$tabTitles.off('keydown.zf.tabs'); // Disable keyboard nav to allow editing
-	}
-
 	componentWillMount() {
 		const { attributes, setAttributes } = this.props;
 		const { tabsID } = attributes;
-		if(! tabsID === null) {
-		  	setAttributes({ tabsId: GetYoDigits() });
+		if(tabsID === undefined) {
+		  	setAttributes({ tabsID: id });
 		}
+	}
+
+	componentDidUpdate() {
+		const { attributes, setAttributes } = this.props;
+		const { tabsID } = attributes;
+		const tabs = new Foundation.Tabs(jQuery(`#tabs-${ tabsID }`), {});
+		tabs.$tabTitles.off('keydown.zf.tabs'); // Disable keyboard nav to allow editing
 	}
 
 	render() {
@@ -75,7 +77,7 @@ class FoundationTabs extends Component {
 				)}
 				key="block"
 			>
-				<ul className="tabs__nav" data-tabs data-link-class="tabs__title" data-panel-class="tabs__panel" id={ `tabs-${ tabsID }` }>
+				<ul className="tabs__nav" data-tabs id={ `tabs-${ tabsID }` } data-link-class="tabs__title" data-panel-class="tabs__panel">
 					{ times( tabsCount, ( index ) =>
 						<li
 							className={classnames(
