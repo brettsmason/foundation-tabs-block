@@ -2,5 +2,9 @@ import whatInput from 'what-input';
 import Foundation from './foundation';
 
 (function($) {
-	const tabs = new Foundation.Tabs($('.tabs__nav'), {});
+	const el = document.querySelector('[data-tabs]');
+
+	if( el ) {
+		$('[data-tabs]').foundation();
+	}
 })( jQuery );
