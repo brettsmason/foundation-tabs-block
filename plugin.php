@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: the naked creative: Tabs Block
- * Plugin URI: http://thenakedcreative.co.uk
- * Description: A simple tabs block.
+ * Plugin Name: Foundation Tabs Block
+ * Plugin URI: https://github.com/brettsmason/foundation-tabs-block
+ * Description: A simple ZURB Foundation tabs Gutenberg block.
  * Author: Brett Mason
  * Version: 1.0.0
  * License: GPL2+
