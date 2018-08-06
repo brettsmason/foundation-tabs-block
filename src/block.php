@@ -6,16 +6,16 @@ defined( 'ABSPATH' ) || exit;
  *
  * `wp-blocks`: includes block type registration and related functions.
  */
-function tnc_tabs_block_assets() {
+function foundation_tabs_block_assets() {
 	wp_enqueue_style(
-		'tnc-tabs-block-style-css',
+		'foundation-tabs-block-style-css',
 		plugins_url( 'dist/block.style.css', dirname( __FILE__ ) ),
 		array( 'wp-blocks' )
 	);
 
 	if ( ! is_admin() ) {
 		wp_enqueue_script(
-			'tnc-tabs-block-frontend-js',
+			'foundation-tabs-block-frontend-js',
 			plugins_url( '/dist/block.frontend.js', dirname( __FILE__ ) ),
 			array( 'jquery' ),
 			null,
@@ -23,7 +23,7 @@ function tnc_tabs_block_assets() {
 		);
 	}
 }
-add_action( 'enqueue_block_assets', 'tnc_tabs_block_assets' );
+add_action( 'enqueue_block_assets', 'foundation_tabs_block_assets' );
 
 /**
  * Enqueue Gutenberg block assets for backend editor.
@@ -32,18 +32,18 @@ add_action( 'enqueue_block_assets', 'tnc_tabs_block_assets' );
  * `wp-element`: includes the WordPress Element abstraction for describing the structure of your blocks.
  * `wp-i18n`: To internationalize the block's text.
  */
-function tnc_tabs_block_editor_assets() {
+function foundation_tabs_block_editor_assets() {
 	wp_enqueue_script(
-		'tnc-tabs-block-js',
+		'foundation-tabs-block-js',
 		plugins_url( '/dist/block.editor.js', dirname( __FILE__ ) ),
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'jquery' )
 	);
 
 	wp_enqueue_style(
-		'tnc-tabs-block-editor-css',
+		'foundation-tabs-block-editor-css',
 		plugins_url( 'dist/block.editor.css', dirname( __FILE__ ) ),
 		array( 'wp-edit-blocks' )
 	);
 }
-add_action( 'enqueue_block_editor_assets', 'tnc_tabs_block_editor_assets' );
+add_action( 'enqueue_block_editor_assets', 'foundation_tabs_block_editor_assets' );
 
