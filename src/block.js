@@ -17,7 +17,7 @@ const {
 	withState,
 } = wp.components;
 
-registerBlockType('tnc/tabs', {
+registerBlockType('foundation/tabs', {
 	title: __('Tabs'),
 	description: __( 'Create a set of horizontal or vertical tabs to layout your content.' ),
 	category: 'common',
